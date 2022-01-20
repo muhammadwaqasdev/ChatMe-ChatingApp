@@ -62,6 +62,21 @@ class _BrowserRendomState extends State<BrowserRendom> {
           .doc(newChatroom.Chatrromid)
           .set(newChatroom.toMap());
 
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(targetUser.uid)
+          .update({"chatedides.${widget.userModel.uid}": true}).whenComplete(
+              () {
+        setState(() {});
+      });
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.userModel.uid)
+          .update({"chatedides.${targetUser.uid}": true}).whenComplete(() {
+        setState(() {});
+      });
+
       chatRoom = newChatroom;
     }
 
@@ -96,53 +111,51 @@ class _BrowserRendomState extends State<BrowserRendom> {
                 UserModel browseuserModel = UserModel.fromMap(
                     userssnapshots.docs[index].data() as Map<String, dynamic>);
 
-                // FutureBuilder(
-                //   future: FirebaseHelper.chatroomishave(
-                //       widget.userModel, browseuserModel),
-                //   builder: (context, snapshot) {
-                // if (widget.chatroomm[index].Partisipents!
-                //     .containsKey(browseuserModel.uid)) {
-                //   print(browseuserModel.fullname);
-                // }
-
-                if (browseuserModel.uid != widget.firebaseuser.uid) {
-                  return Card(
-                    child: RendomUserProfile(
-                      conteryname: browseuserModel.cuntery.toString(),
-                      name: browseuserModel.fullname.toString(),
-                      nikname: browseuserModel.nickname.toString(),
-                      introline: browseuserModel.intro.toString(),
-                      userimage: browseuserModel.prifilepic.toString(),
-                      hellotap: () async {
-                        ChatRoomModel? chatroomModel =
-                            await getChatroomModel(browseuserModel);
-                        sayhyfaster(widget.userModel, chatroomModel!);
-                      },
-                      onusertap: () async {
-                        ChatRoomModel? chatroomModel =
-                            await getChatroomModel(browseuserModel);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ChatRoom(
-                                  targetusermodel: browseuserModel,
-                                  chatroom: chatroomModel!,
-                                  userModel: widget.userModel,
-                                  firebaseuser: widget.firebaseuser)),
-                        );
-                      },
-                    ),
-                  );
-                }
-                return Container();
-
-                //   return Container();
-                // },
-                // );
-
                 // Future<bool> ismoveforword = FirebaseHelper.chatroomishave(
                 //     widget.userModel, browseuserModel);
-                // if (ismoveforword == false) {}
+                // if (ismoveforword == false) {
+                //   print("false");
+                // } else if (ismoveforword == true) {
+                //   print("true");
+                // }
+
+                if (widget.userModel.chatedides!
+                    .containsKey(browseuserModel.uid)) {
+                  print(browseuserModel.uid);
+                } else {
+                  if (browseuserModel.uid != widget.firebaseuser.uid) {
+                    return Card(
+                      child: RendomUserProfile(
+                        conteryname: browseuserModel.cuntery.toString(),
+                        name: browseuserModel.fullname.toString(),
+                        nikname: browseuserModel.nickname.toString(),
+                        introline: browseuserModel.intro.toString(),
+                        userimage: browseuserModel.prifilepic.toString(),
+                        hellotap: () async {
+                          ChatRoomModel? chatroomModel =
+                              await getChatroomModel(browseuserModel);
+                          sayhyfaster(widget.userModel, chatroomModel!);
+                        },
+                        onusertap: () async {
+                          ChatRoomModel? chatroomModel =
+                              await getChatroomModel(browseuserModel);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatRoom(
+                                    targetusermodel: browseuserModel,
+                                    chatroom: chatroomModel!,
+                                    userModel: widget.userModel,
+                                    firebaseuser: widget.firebaseuser)),
+                          );
+                        },
+                      ),
+                    );
+                  }
+
+                  print("okay");
+                }
+                return Container();
               },
             );
           } else if (snapshots.hasError) {

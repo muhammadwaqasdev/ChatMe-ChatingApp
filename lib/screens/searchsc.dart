@@ -58,6 +58,21 @@ class _SearchScreenState extends State<SearchScreen> {
           .doc(newChatroom.Chatrromid)
           .set(newChatroom.toMap());
 
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(targetUser.uid)
+          .update({"chatedides.${widget.userModel.uid}": true}).whenComplete(
+              () {
+        setState(() {});
+      });
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.userModel.uid)
+          .update({"chatedides.${targetUser.uid}": true}).whenComplete(() {
+        setState(() {});
+      });
+
       chatRoom = newChatroom;
     }
 
@@ -177,31 +192,35 @@ class _SearchScreenState extends State<SearchScreen> {
                 // Future<bool> ismoveforword =
                 //     getchatroommodel(widget.userModel, searcheduserModel);
                 // if (ismoveforword == true) {
-                if (searcheduserModel.uid != widget.firebaseuser.uid) {
-                  return Card(
-                    child: Searchtile(
-                      name: searcheduserModel.fullname.toString(),
-                      cuntry: searcheduserModel.cuntery.toString(),
-                      imageurl: searcheduserModel.prifilepic.toString(),
-                      ontap: () async {
-                        ChatRoomModel? chatroomModel =
-                            await getChatroomModel(searcheduserModel);
-                        if (chatroomModel != null) {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChatRoom(
-                                      targetusermodel: searcheduserModel,
-                                      chatroom: chatroomModel,
-                                      userModel: widget.userModel,
-                                      firebaseuser: widget.firebaseuser)));
-                        } else {}
-                      },
-                    ),
-                  );
+                if (widget.userModel.chatedides!
+                    .containsKey(searcheduserModel.uid)) {
+                  print(searcheduserModel.uid);
+                } else {
+                  if (searcheduserModel.uid != widget.firebaseuser.uid) {
+                    return Card(
+                      child: Searchtile(
+                        name: searcheduserModel.fullname.toString(),
+                        cuntry: searcheduserModel.cuntery.toString(),
+                        imageurl: searcheduserModel.prifilepic.toString(),
+                        ontap: () async {
+                          ChatRoomModel? chatroomModel =
+                              await getChatroomModel(searcheduserModel);
+                          if (chatroomModel != null) {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatRoom(
+                                        targetusermodel: searcheduserModel,
+                                        chatroom: chatroomModel,
+                                        userModel: widget.userModel,
+                                        firebaseuser: widget.firebaseuser)));
+                          } else {}
+                        },
+                      ),
+                    );
+                  }
                 }
-                // }
 
                 return Container();
               },

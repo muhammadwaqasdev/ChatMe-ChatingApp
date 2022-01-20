@@ -295,35 +295,19 @@ class FirebaseHelper {
     return intuserModel;
   }
 
-  static Future<ChatRoomModel?> chatroomishave(
-      UserModel cuser, UserModel targetUser, int index) async {
-    // ChatRoomModel? chatRoom;
-
-    // QuerySnapshot snapshot = await FirebaseFirestore.instance
-    //     .collection("chatrooms")
-    //     .where("Partisipents.${cuser.uid}", isEqualTo: true)
-    //     .where("Partisipents.${targetUser.uid}", isEqualTo: true)
-    //     .get();
-
-    // if (snapshot.docs.length > 0) {
-    //   // Fetch the existing one
-    //   var docData = snapshot.docs[index].data();
-    //   ChatRoomModel existingChatroom =
-    //       ChatRoomModel.fromMap(docData as Map<String, dynamic>);
-
-    //   chatRoom = existingChatroom;
-    // }
-    // return chatRoom;
-    // QuerySnapshot snap = await FirebaseFirestore.instance
-    //     .collection("chatrooms")
-    //     .where("Partisipents.${cuser.uid}")
-    //     .get();
-    // ChatRoomModel chatRoomModel =
-    //     await ChatRoomModel.fromMap(snap.docs[0].data() as Map<String, dynamic>);
-    // if (chatRoomModel.Chatrromid != null) {
-    //   return false;
-    // }
-    // return true;
+  static Future<bool> chatroomishave(
+      UserModel cuser, UserModel targetUser) async {
+    QuerySnapshot snap = await FirebaseFirestore.instance
+        .collection("chatrooms")
+        .where("Partisipents.${cuser.uid}")
+        .where("Partisipents.${targetUser.uid}")
+        .get();
+    // ChatRoomModel chatRoomModel = await ChatRoomModel.fromMap(
+    //     snap.docs[0].data() as Map<String, dynamic>);
+    if (snap.docs.length > 0) {
+      return true;
+    }
+    return false;
   }
 }
 

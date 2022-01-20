@@ -15,20 +15,21 @@ class UserModel {
   String? intro;
   String? prifilepic;
   Map<String, dynamic>? favoriteusers;
-  UserModel({
-    this.uid,
-    this.fullname,
-    this.nickname,
-    this.email,
-    this.age,
-    this.cuntery,
-    this.gender,
-    this.status,
-    this.reportedcount,
-    this.intro,
-    this.prifilepic,
-    this.favoriteusers,
-  });
+  Map<String, dynamic>? chatedides;
+  UserModel(
+      {this.uid,
+      this.fullname,
+      this.nickname,
+      this.email,
+      this.age,
+      this.cuntery,
+      this.gender,
+      this.status,
+      this.reportedcount,
+      this.intro,
+      this.prifilepic,
+      this.favoriteusers,
+      this.chatedides});
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,6 +45,7 @@ class UserModel {
       'intro': intro,
       'prifilepic': prifilepic,
       'favoriteusers': favoriteusers,
+      'chatedides': chatedides,
     };
   }
 
@@ -61,6 +63,7 @@ class UserModel {
       intro: map['intro'],
       prifilepic: map['prifilepic'],
       favoriteusers: map['favoriteusers'],
+      chatedides: map['chatedides'],
     );
   }
 }
