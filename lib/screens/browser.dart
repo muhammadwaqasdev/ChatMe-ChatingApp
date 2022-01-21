@@ -42,7 +42,7 @@ class _BrowserRendomState extends State<BrowserRendom> {
       // Fetch the existing one
       var docData = snapshot.docs[0].data();
       ChatRoomModel existingChatroom =
-          ChatRoomModel.fromMap(docData as Map<String, dynamic>);
+          await ChatRoomModel.fromMap(docData as Map<String, dynamic>);
 
       chatRoom = existingChatroom;
     } else {
@@ -65,17 +65,12 @@ class _BrowserRendomState extends State<BrowserRendom> {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(targetUser.uid)
-          .update({"chatedides.${widget.userModel.uid}": true}).whenComplete(
-              () {
-        setState(() {});
-      });
+          .update({"chatedides.${widget.userModel.uid}": true});
 
       await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.userModel.uid)
-          .update({"chatedides.${targetUser.uid}": true}).whenComplete(() {
-        setState(() {});
-      });
+          .update({"chatedides.${targetUser.uid}": true});
 
       chatRoom = newChatroom;
     }
@@ -126,30 +121,29 @@ class _BrowserRendomState extends State<BrowserRendom> {
                   if (browseuserModel.uid != widget.firebaseuser.uid) {
                     return Card(
                       child: RendomUserProfile(
-                        conteryname: browseuserModel.cuntery.toString(),
-                        name: browseuserModel.fullname.toString(),
-                        nikname: browseuserModel.nickname.toString(),
-                        introline: browseuserModel.intro.toString(),
-                        userimage: browseuserModel.prifilepic.toString(),
-                        hellotap: () async {
-                          ChatRoomModel? chatroomModel =
-                              await getChatroomModel(browseuserModel);
-                          sayhyfaster(widget.userModel, chatroomModel!);
-                        },
-                        onusertap: () async {
-                          ChatRoomModel? chatroomModel =
-                              await getChatroomModel(browseuserModel);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatRoom(
-                                    targetusermodel: browseuserModel,
-                                    chatroom: chatroomModel!,
-                                    userModel: widget.userModel,
-                                    firebaseuser: widget.firebaseuser)),
-                          );
-                        },
-                      ),
+                          conteryname: browseuserModel.cuntery.toString(),
+                          name: browseuserModel.fullname.toString(),
+                          nikname: browseuserModel.nickname.toString(),
+                          introline: browseuserModel.intro.toString(),
+                          userimage: browseuserModel.prifilepic.toString(),
+                          hellotap: () async {
+                            ChatRoomModel? chatroomModel =
+                                await getChatroomModel(browseuserModel);
+                            sayhyfaster(widget.userModel, chatroomModel!);
+                          },
+                          onusertap: () async {
+                            ChatRoomModel? chatroomModel =
+                                await getChatroomModel(browseuserModel);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatRoom(
+                                      targetusermodel: browseuserModel,
+                                      chatroom: chatroomModel!,
+                                      userModel: widget.userModel,
+                                      firebaseuser: widget.firebaseuser)),
+                            );
+                          }),
                     );
                   }
 

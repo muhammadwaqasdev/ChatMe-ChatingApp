@@ -88,7 +88,7 @@ class _BlockedUserlistState extends State<BlockedUserlist> {
                                         imageurl: blockedusernew.prifilepic
                                             .toString(),
                                         ontrash: () async {
-                                          await unblockuser(
+                                          await unblockuser(widget.userModel,
                                               blockedusernew, chatRoomModel);
                                           setState(() {});
                                         },

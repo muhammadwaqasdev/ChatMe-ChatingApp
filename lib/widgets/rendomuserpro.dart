@@ -63,20 +63,13 @@ class RendomUserProfile extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(text: name, style: Constants.heading1),
                           TextSpan(
-                              text: " (" + conteryname + ")",
+                              text: "\n(" + conteryname + ")",
                               style: Constants.regular2),
                         ],
                       )),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6.0, vertical: 1.0),
-                        decoration: BoxDecoration(
-                            color: Constants.White,
-                            borderRadius: BorderRadius.circular(12.0)),
-                        child: Text(
-                          introline,
-                          style: Constants.regular1,
-                        ),
+                      Text(
+                        introline,
+                        style: Constants.regular1,
                       )
                     ],
                   ),

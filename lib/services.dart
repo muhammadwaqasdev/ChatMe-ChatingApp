@@ -336,21 +336,35 @@ Future<bool> sayhyfaster(UserModel sender, ChatRoomModel chatroom) async {
   return false;
 }
 
-Future<void> blockuser(UserModel sender, ChatRoomModel chatroom) async {
+Future<void> blockuser(
+    UserModel currenuser, UserModel sender, ChatRoomModel chatroom) async {
   await FirebaseFirestore.instance
       .collection("chatrooms")
       .doc(chatroom.Chatrromid)
       .update({"Partisipents.${sender.uid}": false}).then((value) {
     print("User Blocked");
   });
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(currenuser.uid)
+      .update({"blockeduides.${sender.uid}": true}).then((value) {
+    print("User Blocked");
+  });
 }
 
-Future<void> unblockuser(UserModel sender, ChatRoomModel chatroom) async {
+Future<void> unblockuser(
+    UserModel currenuser, UserModel sender, ChatRoomModel chatroom) async {
   await FirebaseFirestore.instance
       .collection("chatrooms")
       .doc(chatroom.Chatrromid)
       .update({"Partisipents.${sender.uid}": true}).then((value) {
     print("User Un_Blocked");
+  });
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(currenuser.uid)
+      .update({"blockeduides.${sender.uid}": false}).then((value) {
+    print("User Blocked");
   });
 }
 

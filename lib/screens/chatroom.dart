@@ -15,6 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_image/flutter_image.dart';
 
 // ignore: must_be_immutable
 class ChatRoom extends StatefulWidget {
@@ -54,6 +55,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Future uplodeImage() async {
     String filename = uuid.v1();
     int ststusval = 1;
+    imageUrl = "";
 
     ChatModel newMessage = ChatModel(
         messageid: uuid.v1(),
@@ -92,9 +94,9 @@ class _ChatRoomState extends State<ChatRoom> {
           .doc(newMessage.messageid)
           .update({
         "imagepic": imageUrl,
+      }).then((value) {
+        setState(() {});
       });
-
-      print(imageUrl);
     }
   }
 
@@ -173,29 +175,31 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Constants.Primery,
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage:
-                  NetworkImage(widget.targetusermodel.prifilepic.toString()),
-            ),
-            const SizedBox(
-              width: 5.0,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.targetusermodel.fullname.toString(),
-                  style: Constants.heading1.copyWith(color: Constants.White),
-                ),
-                Text(
-                  widget.targetusermodel.status.toString(),
-                  style: Constants.regular1.copyWith(color: Constants.White),
-                )
-              ],
-            ),
-          ],
+        title: Expanded(
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage:
+                    NetworkImage(widget.targetusermodel.prifilepic.toString()),
+              ),
+              const SizedBox(
+                width: 5.0,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.targetusermodel.fullname.toString(),
+                    style: Constants.heading1.copyWith(color: Constants.White),
+                  ),
+                  Text(
+                    widget.targetusermodel.status.toString(),
+                    style: Constants.regular1.copyWith(color: Constants.White),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
         actions: [
           PopupMenuButton(
@@ -206,8 +210,9 @@ class _ChatRoomState extends State<ChatRoom> {
               itemBuilder: (context) => [
                     PopupMenuItem(
                       child: const Text("Block"),
-                      onTap: () =>
-                          blockuser(widget.targetusermodel, widget.chatroom),
+                      onTap: () => blockuser(widget.userModel,
+                              widget.targetusermodel, widget.chatroom)
+                          .whenComplete(() => Navigator.pop(context)),
                     ),
                     PopupMenuItem(
                       child: const Text("Report"),
@@ -216,7 +221,9 @@ class _ChatRoomState extends State<ChatRoom> {
                     PopupMenuItem(
                       child: const Text("Block & Report"),
                       onTap: () {
-                        blockuser(widget.targetusermodel, widget.chatroom);
+                        blockuser(widget.userModel, widget.targetusermodel,
+                                widget.chatroom)
+                            .whenComplete(() => Navigator.pop(context));
                         reportuser(widget.targetusermodel);
                       },
                     )
@@ -303,14 +310,23 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       : CrossAxisAlignment
                                                           .start,
                                               children: [
-                                                Text(
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.3,
+                                                  child: Text(
                                                     currentMessage.message
                                                         .toString(),
                                                     style: Constants.regular2
                                                         .copyWith(
                                                             color: Constants
-                                                                .White)),
-                                                const SizedBox(
+                                                                .White),
+                                                    maxLines: 10,
+                                                    overflow: TextOverflow.clip,
+                                                  ),
+                                                ),
+                                                SizedBox(
                                                   height: 5,
                                                 ),
                                                 Text(
@@ -379,13 +395,23 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       : CrossAxisAlignment
                                                           .start,
                                               children: [
-                                                Image(
-                                                  image: NetworkImage(
+                                                FadeInImage(
+                                                  image: NetworkImageWithRetry(
                                                     currentMessage.imagepic
                                                         .toString(),
                                                   ),
                                                   height: 300,
                                                   width: 300,
+                                                  placeholder: AssetImage(
+                                                      "assets/images/chatmebig.png"),
+                                                  imageErrorBuilder: (context,
+                                                      error, stackTrace) {
+                                                    return Image.asset(
+                                                      'assets/images/chatmebig.png',
+                                                      height: 300,
+                                                      width: 300,
+                                                    );
+                                                  },
                                                 ),
                                                 const SizedBox(
                                                   height: 5,
@@ -464,8 +490,10 @@ class _ChatRoomState extends State<ChatRoom> {
                   IconButton(
                       color: Constants.Primery,
                       onPressed: () {
-                        //selectImage(ImageSource.camera);
-                        getImage();
+                        setState(() {
+                          getImage();
+                        });
+                        setState(() {});
                       },
                       icon: const Icon(FontAwesomeIcons.image)),
                   IconButton(

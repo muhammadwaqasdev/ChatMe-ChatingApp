@@ -16,6 +16,7 @@ class UserModel {
   String? prifilepic;
   Map<String, dynamic>? favoriteusers;
   Map<String, dynamic>? chatedides;
+  Map<String, dynamic>? blockeduides;
   UserModel(
       {this.uid,
       this.fullname,
@@ -29,7 +30,8 @@ class UserModel {
       this.intro,
       this.prifilepic,
       this.favoriteusers,
-      this.chatedides});
+      this.chatedides,
+      this.blockeduides});
 
   Map<String, dynamic> toMap() {
     return {
@@ -46,6 +48,7 @@ class UserModel {
       'prifilepic': prifilepic,
       'favoriteusers': favoriteusers,
       'chatedides': chatedides,
+      'blockeduides': blockeduides,
     };
   }
 
@@ -64,6 +67,7 @@ class UserModel {
       prifilepic: map['prifilepic'],
       favoriteusers: map['favoriteusers'],
       chatedides: map['chatedides'],
+      blockeduides: map['blockeduides'],
     );
   }
 }

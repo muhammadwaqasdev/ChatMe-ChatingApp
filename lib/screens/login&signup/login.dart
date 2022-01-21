@@ -257,12 +257,13 @@ class LogIn extends StatelessWidget {
 
                   UserModel? existuser =
                       await FirebaseHelper.getUserModelById(fireuser!.uid);
+                  try {
+                    intrpof =
+                        await FirebaseHelper.getintrestModelById(existuser!);
+                  } catch (e) {}
+
                   // ignore: unnecessary_null_comparison
                   if (existuser == null) {
-                    try {
-                      intrpof =
-                          await FirebaseHelper.getintrestModelById(existuser!);
-                    } catch (e) {}
                     // ignore: unnecessary_null_comparison
                     if (fireuser != null) {
                       UserModel newuser = UserModel(
@@ -277,7 +278,9 @@ class LogIn extends StatelessWidget {
                           reportedcount: 0,
                           intro: "",
                           prifilepic: fireuser.photoURL,
-                          favoriteusers: {});
+                          favoriteusers: {},
+                          chatedides: {},
+                          blockeduides: {});
 
                       IntrestProfile inpro = IntrestProfile(
                           icuntery: "", iagestart: "", iageend: "", gender: "");

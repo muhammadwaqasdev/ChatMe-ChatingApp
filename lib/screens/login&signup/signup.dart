@@ -78,8 +78,10 @@ class _SignUpState extends State<SignUp> {
           status: "",
           reportedcount: 0,
           intro: "",
-          prifilepic: "https://firebasestorage.googleapis.com/v0/b/chatme-33432.appspot.com/o/chatmebig.png?alt=media&token=ac6a2a91-c9ad-43da-8fab-6ea941d8d500",
-          favoriteusers: {});
+          prifilepic:
+              "https://firebasestorage.googleapis.com/v0/b/chatme-33432.appspot.com/o/chatmebig.png?alt=media&token=ac6a2a91-c9ad-43da-8fab-6ea941d8d500",
+          favoriteusers: {},
+          chatedides: {});
       IntrestProfile inpro =
           IntrestProfile(icuntery: "", iagestart: "", iageend: "", gender: "");
 

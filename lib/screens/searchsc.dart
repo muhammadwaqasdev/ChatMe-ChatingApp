@@ -61,17 +61,12 @@ class _SearchScreenState extends State<SearchScreen> {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(targetUser.uid)
-          .update({"chatedides.${widget.userModel.uid}": true}).whenComplete(
-              () {
-        setState(() {});
-      });
+          .update({"chatedides.${widget.userModel.uid}": true});
 
       await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.userModel.uid)
-          .update({"chatedides.${targetUser.uid}": true}).whenComplete(() {
-        setState(() {});
-      });
+          .update({"chatedides.${targetUser.uid}": true});
 
       chatRoom = newChatroom;
     }
@@ -192,8 +187,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 // Future<bool> ismoveforword =
                 //     getchatroommodel(widget.userModel, searcheduserModel);
                 // if (ismoveforword == true) {
+
                 if (widget.userModel.chatedides!
-                    .containsKey(searcheduserModel.uid)) {
+                        .containsKey(searcheduserModel.uid) ||
+                    widget.userModel.blockeduides!
+                        .containsKey(searcheduserModel.uid)) {
                   print(searcheduserModel.uid);
                 } else {
                   if (searcheduserModel.uid != widget.firebaseuser.uid) {
@@ -215,7 +213,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                         chatroom: chatroomModel,
                                         userModel: widget.userModel,
                                         firebaseuser: widget.firebaseuser)));
-                          } else {}
+                          } else {
+                            print("user blocked");
+                          }
                         },
                       ),
                     );
@@ -333,11 +333,7 @@ class Searchtile extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundColor: Constants.Primery,
-                      child: Image(
-                        image: NetworkImage(imageurl),
-                        height: 35,
-                        width: 35,
-                      ),
+                      backgroundImage: NetworkImage(imageurl),
                     ),
                     SizedBox(
                       width: 10.0,
