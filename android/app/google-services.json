@@ -14,6 +14,51 @@
       },
       "oauth_client": [
         {
+          "client_id": "1075360509176-os62ig7upplgcgvuphrmam7s3orflj23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatme",
+            "certificate_hash": "7880bc1af667171e1470414508b7f59438743e6c"
+          }
+        },
+        {
+          "client_id": "1075360509176-dv9049j6odlqg7jl5qfmt4eq9bf22bnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHdIZ6bNiYhlq90ZFtbQ51Y41uMVmSRLQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1075360509176-dv9049j6odlqg7jl5qfmt4eq9bf22bnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075360509176:android:de2f1279cb31324616df0d",
+        "android_client_info": {
+          "package_name": "com.parallelsoul.chatme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1075360509176-mpaqgendv7hgeuj450vt2nd0n704bosn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parallelsoul.chatme",
+            "certificate_hash": "7880bc1af667171e1470414508b7f59438743e6c"
+          }
+        },
+        {
           "client_id": "1075360509176-dv9049j6odlqg7jl5qfmt4eq9bf22bnf.apps.googleusercontent.com",
           "client_type": 3
         }

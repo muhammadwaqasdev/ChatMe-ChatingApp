@@ -324,7 +324,7 @@ class ProfileListItems extends StatelessWidget {
                   style: DefaultTextStyle.of(context).style,
                   children: const <TextSpan>[
                     TextSpan(
-                        text: 'Perallel Soul',
+                        text: 'ParallelSouls',
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.blue)),

@@ -1,4 +1,4 @@
-package com.example.chatme
+package com.parallelsoul.chatme
 
 import io.flutter.embedding.android.FlutterActivity
 
